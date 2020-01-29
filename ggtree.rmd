@@ -11,7 +11,7 @@ astein10@uw.edu <br>
 http://steinbrennerlab.org <br>
 Updated 1/29/2019 <br>
 <br>
-The following describes ggtree.R, a custom script for using ggtree for phylogenetics tree visualization incorporating other attributes and heatmaps
+The following is the Steinbrenner lab ggtree pipeline for phylogenetics tree visualization incorporating other attributes and heatmaps
 
 ---
 
@@ -40,7 +40,6 @@ install.packages("devtools")
 devtools::install_github("GuangchuangYu/treeio")
 ```
 
-setwd(getSrcDirectory()[1])
 
 ---
 
@@ -58,7 +57,7 @@ sessionInfo()
 
 ---
 
-##Usage and Options
+## Usage and Options
 The script ggtree.R can be run separately with options
 e.g.
 `Rscript ggtree.R --entry fig1_rlck --write test28 --width 2 --height 3.2 -size 2 -line 0.2 --push 5 --label_offset  1.5 --symbol_size 0.5`
@@ -120,12 +119,11 @@ opt <- parse_args(OptionParser(option_list=option_list))
 
 ---
 
-##Inputs: newick tree, attribute files, heatmap data.  Replace the directory with your own
+## Inputs: newick tree, attribute files, heatmap data.  Replace the directory with your own
 Newick tree
 ```{r}
 dir<-paste("C:/Users/Adam/Dropbox/github/ggtree_tutorial/ggtree_tutorial")
 message(dir)
-#tree <- paste(dir,opt$entry,sep="")
 tree <- read.tree(paste(dir,"/ggtree_files/tree_input.nwk",sep=""))
 ```
 Attribute files, tab delimited with columns taxa and atttribute
@@ -149,7 +147,7 @@ lower <- -5
 
 ---
 
-##ggTree object
+## ggTree object
 ggTree creates a tree visualization using ggplot and feeds in the various dataframes (dd, dd2).  You can call columns from these inputs to specify different aspects of the visualization
 ```{r}
 p <- ggtree(tree, size=opt$line) #size specifies line size
@@ -192,7 +190,7 @@ figure
 
 ---
 
-##pdf output
+## pdf output
 ```{r eval = FALSE}
 file_pdf <- paste(getwd(),"/",opt$entry,"output/",opt$write,".pdf", sep='')
 message(file_pdf)
