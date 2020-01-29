@@ -1,10 +1,4 @@
 ---
-title: "custom ggtree"
-output:
-  github_document:
-    toc: true
-    toc_depth: 2
----
 ## About the scripts
 Adam Steinbrenner <br>
 astein10@uw.edu <br>
@@ -69,25 +63,25 @@ e.g.
 option_list <- list( 
     make_option(c("-e", "--entry"), action="store", type="character",
         help="entry"),
-	make_option(c("-b", "--write"), action="store", type="character", 
+    make_option(c("-b", "--write"), action="store", type="character", 
         help="parameters term for file writing"),
-	make_option(c("-n", "--node"), action="store", default=0, type="integer", 
+    make_option(c("-n", "--node"), action="store", default=0, type="integer", 
         help="feed script a node and it will subset one node higher"),
-	make_option(c("-f", "--width"), action="store", default=0, type="numeric", 
+    make_option(c("-f", "--width"), action="store", default=0, type="numeric", 
         help="width for pdf, optional"),
-	make_option(c("-g", "--height"), action="store", default=0, type="numeric", 
+    make_option(c("-g", "--height"), action="store", default=0, type="numeric", 
         help="height for pdf, optional"),
-	make_option(c("-i", "--line"), action="store", default=0.3, type="numeric", 
+    make_option(c("-i", "--line"), action="store", default=0.3, type="numeric", 
         help="line_width"),
-	make_option(c("-x", "--push"), action="store", default=0.3, type="numeric", 
+    make_option(c("-x", "--push"), action="store", default=0.3, type="numeric", 
         help="push right side to make room"),
-	make_option(c("-r", "--label_offset"), action="store", default=1, type="numeric", 
+    make_option(c("-r", "--label_offset"), action="store", default=1, type="numeric", 
         help="offset for gene symbols"),
-	make_option(c("-m", "--symbol_size"), action="store", default=1, type="numeric", 
+    make_option(c("-m", "--symbol_size"), action="store", default=1, type="numeric", 
         help="offset for gene symbols"),
-	make_option(c("-z", "--size"), action="store", default=2, type="numeric", 
+    make_option(c("-z", "--size"), action="store", default=3, type="numeric", 
         help="size of font")
-		)
+        )
 message(option_list)
 opt <- parse_args(OptionParser(option_list=option_list))
 ```
@@ -97,25 +91,25 @@ For the tutorial, set these values in Rstudio manually by running the following 
 option_list <- list( 
     make_option(c("-e", "--entry"), action="store", type="character",
         help="entry"),
-	make_option(c("-b", "--write"), action="store", type="character", default="output", 
+    make_option(c("-b", "--write"), action="store", type="character", default="output", 
         help="parameters term for file writing"),
-	make_option(c("-n", "--node"), action="store", default=0, type="integer", 
+    make_option(c("-n", "--node"), action="store", default=0, type="integer", 
         help="feed script a node and it will subset one node higher"),
-	make_option(c("-f", "--width"), action="store", default=0, type="numeric", 
+    make_option(c("-f", "--width"), action="store", default=0, type="numeric", 
         help="width for pdf, optional"),
-	make_option(c("-g", "--height"), action="store", default=0, type="numeric", 
+    make_option(c("-g", "--height"), action="store", default=0, type="numeric", 
         help="height for pdf, optional"),
-	make_option(c("-i", "--line"), action="store", default=0.3, type="numeric", 
+    make_option(c("-i", "--line"), action="store", default=0.3, type="numeric", 
         help="line_width"),
-	make_option(c("-x", "--push"), action="store", default=0.3, type="numeric", 
+    make_option(c("-x", "--push"), action="store", default=0.3, type="numeric", 
         help="push right side to make room"),
-	make_option(c("-r", "--label_offset"), action="store", default=1, type="numeric", 
+    make_option(c("-r", "--label_offset"), action="store", default=1, type="numeric", 
         help="offset for gene symbols"),
-	make_option(c("-m", "--symbol_size"), action="store", default=1, type="numeric", 
+    make_option(c("-m", "--symbol_size"), action="store", default=1, type="numeric", 
         help="offset for gene symbols"),
-	make_option(c("-z", "--size"), action="store", default=1, type="numeric", 
+    make_option(c("-z", "--size"), action="store", default=2, type="numeric", 
         help="size of font")
-		)
+        )
 message(option_list)
 opt <- parse_args(OptionParser(option_list=option_list))
 ```
@@ -188,13 +182,13 @@ p <- p %<+% dd + geom_tiplab(size=opt$size,offset=0.05,aes(color=species)) + geo
 
 Generates figure using ggtree, counts_file is a formatted list of numbers within the limits (e.g. RNAseq fold changes)
 ```{r}
-figure <- gheatmap(p,counts_file, offset = 1.5, width=0.6, font.size=1.5, colnames_angle=-45, hjust=0) + 
+figure <- gheatmap(p,counts_file, offset = 1.5, width=0.6, font.size=2, colnames_angle=-45, hjust=0) + 
   #Color by species
-	geom_tiplab(size=opt$size,offset=0.05,aes(color=species)) +
-	scale_fill_gradient2(low="#000099",high="#FF0000",mid="white",limits=c(lower,upper)) +
-	#node labels
-	geom_text2(aes(subset=!isTip, label=node), hjust=-.3, size=opt$size) + 
-	scale_colour_manual(values=c("black","red","blue","orange","purple","darkgreen","cadetblue","deeppink","darkgoldenrod","brown4","olivedrab2"))
+    geom_tiplab(size=opt$size,offset=0.05,aes(color=species)) +
+    scale_fill_gradient2(low="#000099",high="#FF0000",mid="white",limits=c(lower,upper)) +
+    #node labels
+    geom_text2(aes(subset=!isTip, label=node), hjust=-.3, size=opt$size) + 
+    scale_colour_manual(values=c("black","red","blue","orange","purple","darkgreen","cadetblue","deeppink","darkgoldenrod","brown4","olivedrab2"))
 figure
 ```
 

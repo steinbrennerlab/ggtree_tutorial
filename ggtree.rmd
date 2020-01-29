@@ -85,7 +85,7 @@ option_list <- list(
         help="offset for gene symbols"),
 	make_option(c("-m", "--symbol_size"), action="store", default=1, type="numeric", 
         help="offset for gene symbols"),
-	make_option(c("-z", "--size"), action="store", default=2, type="numeric", 
+	make_option(c("-z", "--size"), action="store", default=3, type="numeric", 
         help="size of font")
 		)
 message(option_list)
@@ -113,7 +113,7 @@ option_list <- list(
         help="offset for gene symbols"),
 	make_option(c("-m", "--symbol_size"), action="store", default=1, type="numeric", 
         help="offset for gene symbols"),
-	make_option(c("-z", "--size"), action="store", default=1, type="numeric", 
+	make_option(c("-z", "--size"), action="store", default=2, type="numeric", 
         help="size of font")
 		)
 message(option_list)
@@ -188,7 +188,7 @@ p <- p %<+% dd + geom_tiplab(size=opt$size,offset=0.05,aes(color=species)) + geo
 
 Generates figure using ggtree, counts_file is a formatted list of numbers within the limits (e.g. RNAseq fold changes)
 ```{r}
-figure <- gheatmap(p,counts_file, offset = 1.5, width=0.6, font.size=1.5, colnames_angle=-45, hjust=0) + 
+figure <- gheatmap(p,counts_file, offset = 1.5, width=0.6, font.size=2, colnames_angle=-45, hjust=0) + 
   #Color by species
 	geom_tiplab(size=opt$size,offset=0.05,aes(color=species)) +
 	scale_fill_gradient2(low="#000099",high="#FF0000",mid="white",limits=c(lower,upper)) +
