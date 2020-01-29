@@ -16,8 +16,11 @@ The following is the Steinbrenner lab ggtree pipeline for phylogenetics tree vis
 ---
 
 ## Download ggtree.R and data
-Find ggtree.R in main directory, and all input files in /data/ggtree
-
+Find ggtree.Rmd in main directory, and all input files in /ggtree_files.  Set your working directory: replace with your own local repo directory!
+```{r}
+dir<-paste("C:/Users/Adam/Dropbox/github/ggtree_tutorial/ggtree_tutorial")
+message(dir)
+```
 ---
 
 ## Install packages
@@ -37,6 +40,7 @@ install.packages("tidyselect")
 install.packages("tidyselect")
 install.packages("labeling")
 install.packages("devtools")
+install.packages("rlang")
 devtools::install_github("GuangchuangYu/treeio")
 ```
 
@@ -52,7 +56,6 @@ library("EBImage") # for images
 library("ggtree")
 library("optparse")
 ```
-sessionInfo()
 
 
 ---
@@ -122,8 +125,6 @@ opt <- parse_args(OptionParser(option_list=option_list))
 ## Inputs: newick tree, attribute files, heatmap data.  Replace the directory with your own
 Newick tree
 ```{r}
-dir<-paste("C:/Users/Adam/Dropbox/github/ggtree_tutorial/ggtree_tutorial")
-message(dir)
 tree <- read.tree(paste(dir,"/ggtree_files/tree_input.nwk",sep=""))
 ```
 Attribute files, tab delimited with columns taxa and atttribute
@@ -147,23 +148,28 @@ lower <- -5
 
 ---
 
-## ggTree object
+## ggTree object, appending data, and visualization
 ggTree creates a tree visualization using ggplot and feeds in the various dataframes (dd, dd2).  You can call columns from these inputs to specify different aspects of the visualization
 ```{r}
 p <- ggtree(tree, size=opt$line) #size specifies line size
+
 ###OPTIONAL: adds hmm coding to ggtree object q
 ###OPTIONAL: takes hmm_coding and adds to a separate dataframe dd2
-
 p <- p %<+% dd2
+```
+Takes the messy tree object and converts it to a dataframe using fortify.  Simplifies it down using data.frame and then reorders it according to the graphical position!
 
-#Takes the messy tree object and converts it to a dataframe using fortify.  Simplifies it down using data.frame and then reorders it according to the graphical position!
-#Apparently fortify might deprecate and switch to the "broom" package for tidying data.  Try to figure this out on the ggtree object "q", not "tree", so that flip functions will be reflected in the output
+Apparently fortify might deprecate and switch to the "broom" package for tidying data.  Try to figure this out on the ggtree object "q", not "tree", so that flip functions will be reflected in the output
+
+```{r}
 tips <- fortify(tree)
 tips <- data.frame(tips$label,tips$y,tips$isTip)
 tips <- tips[order(tips[,3],tips[,2],decreasing=T),]
 #Writes the tips to a csv file.  Name is based on the option -b specified when the script is called
+```
 
-
+Generates output gene list
+```{r}
 dir.create(paste(getwd(),"/",opt$entry,"output", sep=''))
 file_csv <- paste(getwd(),"/",opt$entry,"output/",opt$write,".csv", sep='')
 message(file_csv)
@@ -173,11 +179,15 @@ node_count <- length(tree$tip.label)
 for (i in 1:node_count) {
 write(as.matrix(tips)[,1][i],file=file_csv,sep=",",append=T)
 }
+```
 
-#Specifies tip shape using hmm, a column that comes from the attributes file
+Specifies tip shape using hmm, a column that comes from the attributes file
+```{r}
 p <- p %<+% dd + geom_tiplab(size=opt$size,offset=0.05,aes(color=species)) + geom_tippoint(aes(size=opt$size,shape=hmm)) + scale_size_identity() #you need scale_size_identity! https://groups.google.com/forum/#!topic/bioc-ggtree/XHaq9Sk3b00
+```
 
-#Generates figure using ggtree, counts_file is a formatted list of numbers within the limits (e.g. RNAseq fold changes)
+Generates figure using ggtree, counts_file is a formatted list of numbers within the limits (e.g. RNAseq fold changes)
+```{r}
 figure <- gheatmap(p,counts_file, offset = 1.5, width=0.6, font.size=1.5, colnames_angle=-45, hjust=0) + 
   #Color by species
 	geom_tiplab(size=opt$size,offset=0.05,aes(color=species)) +
@@ -191,7 +201,7 @@ figure
 ---
 
 ## pdf output
-```{r eval = FALSE}
+```{r}
 file_pdf <- paste(getwd(),"/",opt$entry,"output/",opt$write,".pdf", sep='')
 message(file_pdf)
 
