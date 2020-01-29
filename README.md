@@ -51,7 +51,7 @@ sessionInfo()
 
 ---
 
-##Usage and Options
+## Usage and Options
 Use options -e, the query ENTRY, and -o, the filename specifier OUTPUT. -n is optional to specify a specific node
 e.g.
 `Rscript tree.R -e Vigun07g219600.1 -o output_testing`
@@ -71,7 +71,7 @@ opt <- parse_args(OptionParser(option_list=option_list))
 
 ---
 
-##Inputs: newick tree, attribute files, heatmap data
+## Inputs: newick tree, attribute files, heatmap data
 Newick tree
 ```{r}
 dir<-paste("C:/Users/Adam/Dropbox/github/alluvial_diagrams/alluvial_diagrams/data/ggtree/")
@@ -100,7 +100,7 @@ lower <- -5
 
 ---
 
-##ggTree object
+## ggTree object
 ggTree creates a tree visualization using ggplot and feeds in the various dataframes (dd, dd2).  You can call columns from these inputs to specify different aspects of the visualization
 ```{r}
 q <- ggtree(tree, size=0.1) #size specifies line size
@@ -133,7 +133,7 @@ figure
 
 ---
 
-##pdf output
+## pdf output
 ```{r eval = FALSE}
 file <- "C:/Users/Adam/Dropbox/github/alluvial_diagrams/alluvial_diagrams/data/ggtree/ggtree_output.pdf"
 message(file)
@@ -145,7 +145,7 @@ dev.off()
 
 ---
 
-##Fortify to write list of genes
+## Fortify to write list of genes
 Takes the tree object and converts it to a tidy dataframe using fortify, then reorders it according to the graphical position
 Apparently fortify might deprecate and switch to the "broom" package for tidying data
 ```{r eval = FALSE}
@@ -165,7 +165,7 @@ Using the output csv, you can call a python script to get the original nucleotid
 system(paste("python extract_seq.py ",opt$entry," ",opt$output,".csv",sep=""))
 ```
 
-##Subtrees
+## Subtrees
 OPTIONAL: can take a subset of the original tree; use a node 1 deeper than you want!  For example, try the NIK3 clade using `node <- 34`
 ```{r}
 #node<-opt$node
